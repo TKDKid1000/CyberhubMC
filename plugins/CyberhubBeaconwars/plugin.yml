@@ -1,0 +1,16 @@
+name: CyberhubBeaconwars
+version: 1.11.0
+main: net.Cyberhub.tkdkid1000.CyberhubBeaconwars
+commands:
+  debug:
+    usage: /debug
+    permission: cyberhubbeaconwars.debug
+    description: Shows you debug stats for nerds :D
+  beacon:
+    usage: /beacon <cmd> <args>
+    permission: cyberhubbeaconwars.beacon
+    description: The main (and only) beaconwars command. To be used by admins only.
+  shopgui:
+    usage: /shopgui
+    permission: cyberhubbeaconwars.shopgui
+    description: Opens the beaconwars shop gui.

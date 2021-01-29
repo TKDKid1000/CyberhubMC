@@ -1,0 +1,229 @@
+gui:
+  diamondsword:
+    item: DIAMOND_SWORD
+    count: 1
+    pos: 0
+    cost:
+      EMERALD: 4
+  ironsword:
+    item: IRON_SWORD
+    count: 1
+    pos: 1
+    cost:
+      GOLD_INGOT: 7
+  stonesword:
+    item: STONE_SWORD
+    count: 1
+    pos: 2
+    cost:
+      IRON_INGOT: 10
+  bow:
+    item: BOW
+    count: 1
+    pos: 4
+    cost:
+      GOLD_INGOT: 12
+  arrow:
+    item: ARROW
+    count: 16
+    pos: 5
+    cost:
+      GOLD_INGOT: 2
+  wool:
+    item: WOOL
+    count: 16
+    pos: 9
+    cost:
+      IRON_INGOT: 4
+  obsidian:
+    item: OBSIDIAN
+    count: 1
+    pos: 10
+    cost:
+      EMERALD: 1
+  endstone:
+    item: ENDER_STONE
+    count: 4
+    pos: 11
+    cost:
+      IRON_INGOT: 2
+  diamondpickaxe:
+    item: DIAMOND_PICKAXE
+    count: 1
+    pos: 18
+    cost:
+      GOLD_INGOT: 20
+  ironpickaxe:
+    item: IRON_PICKAXE
+    count: 1
+    pos: 19
+    cost:
+      GOLD_INGOT: 6
+  stonepickaxe:
+    item: STONE_PICKAXE
+    count: 1
+    pos: 20
+    cost:
+      IRON_INGOT: 10
+  woodpickaxe:
+    item: WOOD_PICKAXE
+    count: 1
+    pos: 21
+    cost:
+      IRON_INGOT: 3
+  diamondaxe:
+    item: DIAMOND_AXE
+    count: 1
+    pos: 22
+    cost:
+      GOLD_INGOT: 20
+  ironaxe:
+    item: IRON_AXE
+    count: 1
+    pos: 23
+    cost:
+      GOLD_INGOT: 6
+  stoneaxe:
+    item: STONE_AXE
+    count: 1
+    pos: 24
+    cost:
+      IRON_INGOT: 10
+  woodaxe:
+    item: WOOD_AXE
+    count: 1
+    pos: 25
+    cost:
+      IRON_INGOT: 3
+  shears:
+    item: SHEARS
+    count: 1
+    pos: 26
+    cost:
+      IRON_INGOT: 20
+  fireball:
+    item: FIREBALL
+    count: 1
+    pos: 27
+    cost:
+      IRON_INGOT: 40
+  enderpearl:
+    item: ENDER_PEARL
+    count: 1
+    pos: 28
+    cost:
+      NETHER_STAR: 1
+  goldenapple:
+    item: GOLDEN_APPLE
+    count: 1
+    pos: 29
+    cost:
+      GOLD_INGOT: 4
+  steak:
+    item: COOKED_BEEF
+    count: 8
+    pos: 30
+    cost:
+      IRON_INGOT: 8
+  tnt:
+    item: TNT
+    count: 1
+    pos: 31
+    cost:
+      GOLD_INGOT: 8
+  leatherhelmet:
+    item: LEATHER_HELMET
+    count: 1
+    pos: 36
+    cost:
+      IRON_INGOT: 5
+  leatherchestplate:
+    item: LEATHER_CHESTPLATE
+    count: 1
+    pos: 37
+    cost:
+      IRON_INGOT: 5
+  leatherleggings:
+    item: LEATHER_LEGGINGS
+    count: 1
+    pos: 38
+    cost:
+      IRON_INGOT: 5
+  leatherboots:
+    item: LEATHER_BOOTS
+    count: 1
+    pos: 39
+    cost:
+      IRON_INGOT: 5
+  chainhelmet:
+    item: CHAINMAIL_HELMET
+    count: 1
+    pos: 40
+    cost:
+      GOLD_INGOT: 6
+  chainchestplate:
+    item: CHAINMAIL_CHESTPLATE
+    count: 1
+    pos: 41
+    cost:
+      GOLD_INGOT: 6
+  chainleggings:
+    item: CHAINMAIL_LEGGINGS
+    count: 1
+    pos: 42
+    cost:
+      GOLD_INGOT: 6
+  chainboots:
+    item: CHAINMAIL_BOOTS
+    count: 1
+    pos: 43
+    cost:
+      GOLD_INGOT: 6
+  ironhelmet:
+    item: IRON_HELMET
+    count: 1
+    pos: 45
+    cost:
+      EMERALD: 4
+  ironchestplate:
+    item: IRON_CHESTPLATE
+    count: 1
+    pos: 46
+    cost:
+      EMERALD: 4
+  ironleggings:
+    item: IRON_LEGGINGS
+    count: 1
+    pos: 47
+    cost:
+      EMERALD: 4
+  ironboots:
+    item: IRON_BOOTS
+    count: 1
+    pos: 48
+    cost:
+      EMERALD: 4
+  diamondhelmet:
+    item: DIAMOND_HELMET
+    count: 1
+    pos: 49
+    cost:
+      NETHER_STAR: 2
+  diamondchestplate:
+    item: DIAMOND_CHESTPLATE
+    count: 1
+    pos: 50
+    cost:
+      NETHER_STAR: 2
+  diamondleggings:
+    item: DIAMOND_LEGGINGS
+    count: 1
+    pos: 51
+    cost:
+      NETHER_STAR: 2
+  diamondboots:
+    item: DIAMOND_BOOTS
+    count: 1
+    pos: 52
+    cost:
+      NETHER_STAR: 2
