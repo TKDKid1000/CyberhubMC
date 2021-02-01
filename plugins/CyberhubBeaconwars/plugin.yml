@@ -1,6 +1,7 @@
 name: CyberhubBeaconwars
-version: 1.11.0
+version: 1.14.0
 main: net.Cyberhub.tkdkid1000.CyberhubBeaconwars
+depend: [WorldEdit, Essentials]
 commands:
   debug:
     usage: /debug
@@ -14,3 +15,7 @@ commands:
     usage: /shopgui
     permission: cyberhubbeaconwars.shopgui
     description: Opens the beaconwars shop gui.
+  enchgui:
+    usage: /enchgui
+    permission: cyberhubbeaconwars.enchgui
+    description: Opens the beaconwars enchantment gui.

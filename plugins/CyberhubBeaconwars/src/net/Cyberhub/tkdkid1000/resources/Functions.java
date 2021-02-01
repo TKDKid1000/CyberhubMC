@@ -3,11 +3,13 @@ package net.Cyberhub.tkdkid1000.resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import net.Cyberhub.tkdkid1000.CyberhubBeaconwars;
 import net.Cyberhub.tkdkid1000.utils.BoundingBox;
@@ -34,11 +36,30 @@ public class Functions {
 		return blocks;
 	}
 	
-	public static String getTeam(Player player) {
-		if (CyberhubBeaconwars.blueplayers.contains(player)) return "b";
-		if (CyberhubBeaconwars.yellowplayers.contains(player)) return "y";
-		if (CyberhubBeaconwars.redplayers.contains(player)) return "r";
-		if (CyberhubBeaconwars.greenplayers.contains(player)) return "g";
-		return "n";
+	public static void elimPlayer(Player player) {
+		for (Player p : CyberhubBeaconwars.players) {
+			p.sendMessage(ChatColor.RED + player.getName() + " has been eliminated!");
+		}
+		player.sendMessage(ChatColor.RED + "You have been eliminated from the game!");
+		player.getInventory().clear();
+		player.setHealth(20);
+		player.setFoodLevel(20);
+		player.getInventory().setArmorContents(new ItemStack[] {new ItemStack(Material.AIR),
+				new ItemStack(Material.AIR),
+				new ItemStack(Material.AIR),
+				new ItemStack(Material.AIR)});
+		for (int x=0; x<8; x++) {
+			List<Player> players = CyberhubBeaconwars.playerlist.get(x);
+			List<String> colors = CyberhubBeaconwars.colors;
+			if (players.contains(player)) {
+				players.remove(player);
+				if (players.size() == 0) {
+					CyberhubBeaconwars.deadteams++;
+					for (Player p : CyberhubBeaconwars.players) {
+						p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + colors.get(x) + " team has been eliminated!");
+					}
+				}
+			}
+		}
 	}
 }

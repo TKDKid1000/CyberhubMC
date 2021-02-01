@@ -1,5 +1,17 @@
 minplayers: 4
 map: "map1"
+spawnworld: "spawn"
+
+teams:
+- "red"
+- "blue"
+- "green"
+- "yellow"
+- "pink"
+- "gray"
+- "cyan"
+- "orange"
+
 spawn:
 
 boundingbox:

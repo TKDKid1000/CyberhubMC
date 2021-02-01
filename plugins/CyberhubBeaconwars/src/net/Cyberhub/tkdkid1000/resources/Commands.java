@@ -1,7 +1,6 @@
 package net.Cyberhub.tkdkid1000.resources;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,11 +55,10 @@ public class Commands implements CommandExecutor, TabExecutor {
         	commands.add("help");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2) {
-        	if (args[0].equalsIgnoreCase("setbase") || args[1].equalsIgnoreCase("setislandgen") || args[1].equalsIgnoreCase("setbeacon")) {
-        		commands.add("red");
-        		commands.add("blue");
-        		commands.add("green");
-        		commands.add("yellow");
+        	if (args[0].equalsIgnoreCase("setbase") || args[0].equalsIgnoreCase("setislandgen") || args[0].equalsIgnoreCase("setbeacon")) {
+        		for (String team : config.getStringList("teams")) {
+        			commands.add(team);
+        		}
         	} else if (args[0].equalsIgnoreCase("setrespawn")) {
         		commands.add("1");
         		commands.add("2");
@@ -138,8 +136,7 @@ public class Commands implements CommandExecutor, TabExecutor {
 				if (args.length == 1) {
 					player.sendMessage(ChatColor.RED + "Please specify a team!");
 				} else {
-					String[] teams = {"red", "blue", "green", "yellow"};
-					if (Arrays.asList(teams).contains(args[1])) {
+					if (config.getStringList("teams").contains(args[1])) {
 						config.set("beacons." + args[1], locstring);
 						beacon.saveConfig();
 						player.sendMessage(ChatColor.GREEN + "Set " + args[1] + " teams beacon to " + locstring);
@@ -151,8 +148,7 @@ public class Commands implements CommandExecutor, TabExecutor {
 				if (args.length == 1) {
 					player.sendMessage(ChatColor.RED + "Please specify a team!");
 				} else {
-					String[] teams = {"red", "blue", "green", "yellow"};
-					if (Arrays.asList(teams).contains(args[1])) {
+					if (config.getStringList("teams").contains(args[1])) {
 						config.set("bases." + args[1], locstring);
 						beacon.saveConfig();
 						player.sendMessage(ChatColor.GREEN + "Set " + args[1] + " teams respawn point to " + locstring);
@@ -288,10 +284,10 @@ public class Commands implements CommandExecutor, TabExecutor {
 			} else if (args[0].equalsIgnoreCase("end")) {
 				if (CyberhubBeaconwars.enabled) {
 					player.sendMessage(ChatColor.GREEN + "Ending the active beaconwars game...");
-					CyberhubBeaconwars.redplayers.clear();
-					CyberhubBeaconwars.greenplayers.clear();
-					CyberhubBeaconwars.yellowplayers.clear();
-					CyberhubBeaconwars.deadteams = 3;
+					for (int i=1; i<8; i++) {
+						CyberhubBeaconwars.playerlist.get(i).clear();
+					}
+					CyberhubBeaconwars.deadteams = 7;
 				} else {
 					player.sendMessage(ChatColor.RED + "There isn't a game running right now.");
 				}
