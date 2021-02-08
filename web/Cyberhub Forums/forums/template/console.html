@@ -1,0 +1,24 @@
+<html>
+    <head>
+        {% if admin == true %}
+        <title>Console - Cyberhub</title>
+        {% else %}
+        <title>Page Not Found - Cyberhub</title>
+        {% endif %}
+        {% include "imports.html" %}
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        <h1>Cyberhub Console</h1>
+        {% if admin == "true" %}
+        <p>{{ info }}</p>
+        <form action="console" method="POST" novalidate>
+            <textarea id="cmd" name="cmd" placeholder="Enter Server Command" required></textarea>
+            <input type="submit" value="Send">
+        </form>
+        {% else %}
+        <h1>404 Page Not Found</h1>
+        <p>Plain and simple, the requested page was not found. <a href="{{ url_for('homepage') }}">Return Home</a>.</p>
+        {% endif %}
+    </body>
+</html>

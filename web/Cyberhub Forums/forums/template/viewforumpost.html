@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Forums - Cyberhub</title>
+        {% include "imports.html" %}
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        <h1>{{ posttitle }}</h1>
+        <p>Author: {{ postauthor }}</p>
+        <div id="content"></div>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script>
+          document.getElementById('content').innerHTML =
+            marked(`{{ postcontent }}`);
+        </script>
+        <h4>Comments</h4>
+        <div id="comments">
+        {% for comment in comments %}
+        <p>{{ comments[comment]["author"] }}: {{ comments[comment]["content"] }}</p>
+        {% endfor %}
+        </div>
+        {% if not current_user.is_authenticated %}
+        <p>Want to comment? Please <a href="{{ url_for('login') }}">login</a></p>
+        {% else %}
+        <form action="" method="POST">
+            <textarea id="comment" name="comment" required></textarea>
+            <input type="submit" value="Send Comment">
+        </form>
+        {% endif %}
+        <script>
+            if ( window.history.replaceState ) {
+                window.history.replaceState("", "", window.location.href );
+            }
+        </script>
+    </body>
+</html>

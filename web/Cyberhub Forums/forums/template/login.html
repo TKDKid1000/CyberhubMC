@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>Login - Cyberhub</title>
+        {% include "imports.html" %}
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        <form method="POST" action="login">
+            <label for="email">Email: </label>
+            <input type="email" name="email" id="email" placeholder="email">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password" placeholder="password">
+            <input type="submit" value="Log In">
+        </form>
+    </body>
+</html>

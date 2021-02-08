@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>News - Cyberhub</title>
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+        <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+        {% include "imports.html" %}
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        <h1>Cyberhub News</h1>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        {% if not current_user.is_authenticated %}
+        <p>No user logged in <a href="{{ url_for('login') }}">login</a></p>
+        <p>New here? <a href="{{ url_for('register') }}">register</a></p>
+        {% else %}
+        <p>Current user: {{ data["name"] }}</p>
+        <p>Done for now? <a href="{{ url_for('logout') }}">logout</a></p>
+        {% endif %}
+        <p id="newscontent"></p>
+        <script>
+            document.getElementById('newscontent').innerHTML = marked(`{{ news }}`);
+        </script>
+        {% if admin == "true" %}
+        <form action="news" method="POST" novalidate>
+            <textarea id="formnews" name="formnews" placeholder="Enter the latest news update here" required></textarea>
+            <input type="submit" value="Update">
+        </form>
+        <script>
+            var easyMDE = new EasyMDE();
+            if ( window.history.replaceState ) {
+                window.history.replaceState("", "", window.location.href );
+            }
+        </script>
+        {% endif %}
+    </body>
+</html>

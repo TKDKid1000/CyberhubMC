@@ -1,0 +1,28 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="topnav" id="myTopnav">
+    <a href="{{ url_for('homepage') }}">Home</a>
+    <a href="{{ url_for('newspage') }}">News</a>
+    <a href="{{ url_for('forumhomepage') }}">Forums</a>
+    <a href="https://discord.com">Discord</a>
+    {% if not current_user.is_authenticated %}
+    <a href="{{ url_for('login') }}" class="account">Login</a>
+    <a href="{{ url_for('register') }}" class="account">Register</a>
+    {% else %}
+    <img src="{{ data['icon'] }}" style="border-radius: 50px;" height="50px" width="50px"><a href="{{ url_for('accountpage') }}" class="user">{{ data["username"] }}'s Account</a>
+    {% endif %}
+    <a href="javascript:void(0);" class="icon" onclick="togglenav()">
+      <i class="fa fa-bars"></i>
+    </a>
+</div>
+<script>
+    function togglenav() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+</script>
+

@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Forums - Cyberhub</title>
+        {% include "imports.html" %}
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        <h1>Cyberhub Forums</h1>
+        {% if not current_user.is_authenticated %}
+        <p>No user logged in <a href="{{ url_for('login') }}">login</a></p>
+        <p>New here? <a href="{{ url_for('register') }}">register</a></p>
+        {% else %}
+        <p>Current user: {{ data["username"] }}</p>
+        <p>Done for now? <a href="{{ url_for('logout') }}">logout</a></p>
+        {% endif %}
+        <p>Create a new forums post. <a href="{{ url_for('newforumpost') }}">Create</a></p>
+        <p>See whats up. Look at the recent posts</p>
+        <ul>
+        {% set amount = filename|length %}
+        {% if amount > 20 %}
+        {% set amount = 20 %}
+        {% endif %}
+        {% for x in range(0, amount) %}
+        <li><p><a href="{{ url_for('viewforumpost', postid=filename[x].replace('.json', '')) }}">Recent Post #{{ x+1 }}</a></p></li>
+        {% endfor %}
+        </ul>
+    </body>
+</html>

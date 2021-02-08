@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Minecraft server and community - Cyberhub</title>
+        {% include "imports.html" %}
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        <h1>Cyberhub Minecraft Server and Community</h1>
+        {% if not current_user.is_authenticated %}
+        <p>No user logged in <a href="{{ url_for('login') }}">login</a></p>
+        <p>New here? <a href="{{ url_for('register') }}">register</a></p>
+        {% else %}
+        <p>Current user: {{ data["username"] }}</p>
+        <p>Done for now? <a href="{{ url_for('logout') }}">logout</a></p>
+        {% endif %}
+        <textarea style="display:none" id=text></textarea>
+        <script>
+            function copytext(text) {
+              var copyText = document.getElementById("text");
+              copyText.value = text;
+              copyText.style.display = "block";
+              copyText.select();
+              copyText.setSelectionRange(0, 99999)
+              document.execCommand("copy");
+              copyText.style.display = "none";
+            }
+        </script>
+        <style>
+            #copyip {
+                width: 500px;
+            }
+            #copyip:hover {
+              display: "Copy IP";
+            }
+            #copyip:hover::after {
+                content: " -> Cyberhub.net";
+            }
+        </style>
+        <button id="copyip" onclick="copytext('cyberhub.net')">Copy IP</button>
+        <p>Some server status:</p>
+        <p id="players"></p>
+        <div id="motd"></div>
+        <script>
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', "https://api.mcsrvstat.us/2/cyberhub.net", true);
+            xhr.send();
+
+            xhr.onreadystatechange = processRequest;
+            function processRequest(e) {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    document.querySelector("#players").innerHTML = "Players: " + response.players.online.toString() + "/" + response.players.max.toString();
+                    document.querySelector("#motd").innerHTML = "<p>MOTD: " + response.motd.html + "</p>";
+                }
+            }
+        </script>
+        <p>Start a conversation? Meet the community? Visit the <a href="{{ url_for('forumhomepage') }}">forums</a></p>
+    </body>
+</html>
