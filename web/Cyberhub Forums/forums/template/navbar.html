@@ -5,6 +5,7 @@
     <a href="{{ url_for('newspage') }}">News</a>
     <a href="{{ url_for('forumhomepage') }}">Forums</a>
     <a href="https://discord.com">Discord</a>
+    <a href="https://cyberhubnet.tebex.io">Store</a>
     {% if not current_user.is_authenticated %}
     <a href="{{ url_for('login') }}" class="account">Login</a>
     <a href="{{ url_for('register') }}" class="account">Register</a>

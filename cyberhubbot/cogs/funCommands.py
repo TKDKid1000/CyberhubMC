@@ -123,6 +123,83 @@ class funCommands(commands.Cog):
         fulltime = round(fulltime)
         await ctx.send(f"You took: **{fulltime}** seconds!")
         await ctx.send(f"You got **{correct}** words correct!")
+    
+    @commands.command(brief="Create a vote poll!")
+    async def createpoll(self, ctx, name=None, *, questions=None):
+        polls = load("polls.json")
+        if name == None:
+            await ctx.send("Please specify a poll name and questions!")
+            return
+        else:
+            if name in polls:
+                await ctx.send("A poll with that name is already up!")
+                return
+            else:
+                if questions == None:
+                    await ctx.send("Please specify some questions! (seperated by `:`)")
+                    return
+                else:
+                    questiondict = {}
+                    for q in questions.split(":"):
+                        questiondict[q.lower().strip()] = 0
+                    polls[name] = {
+                        "questions" : questiondict,
+                        "owner" : ctx.author.id,
+                        "who" : []
+                    }
+                    save(polls, "polls.json")
+                    description = "To vote on the poll type /vote " + name + " (question). Simply copy paste the question to choose it.\n\n"
+                    for q in questions.split(":"):
+                        description = description + q + "\n"
+                    embed=discord.Embed(title="**%s**" % name, description=description)
+                    embed.set_author(name=ctx.author.mention, icon_url=ctx.author.avatar_url)
+                    await ctx.send(embed=embed)
+    
+    @commands.command(brief="Answer a vote poll")
+    async def vote(self, ctx, poll=None, *, question=None):
+        polls = load("polls.json")
+        if poll == None:
+            await ctx.send("Please specify a poll name and answer!")
+            return
+        else:
+            if poll in polls:
+                if question.lower().strip() in polls[poll]["questions"]:
+                    if ctx.author.id in polls[poll]["who"]:
+                        await ctx.send("You already answered this poll!")
+                        return
+                    else:
+                        polls[poll]["who"].append(ctx.author.id)
+                        polls[poll]["questions"][question] = polls[poll]["questions"][question]+1
+                        await ctx.send("You voted for " + question + "!")
+                        save(polls, "polls.json")
+                else:
+                    await ctx.send("That answer does not exist! Try copy pasting it.")
+                    return
+            else:
+                await ctx.send("That poll does not exist!")
+                return
+    
+    @commands.command(brief="End a vote poll")
+    async def endpoll(self, ctx, poll=None):
+        polls = load("polls.json")
+        if poll == None:
+            await ctx.send("Please specify a poll name! (that you own)")
+            return
+        else:
+            if poll in polls:
+                if polls[poll]["owner"] == ctx.author.id:
+                    description = "Here are the results of the poll by " + ctx.author.mention + ":\n"
+                    for result in polls[poll]["questions"]:
+                        description = description + "**" + result + ", " + str(polls[poll]["questions"][result]) + "**\n" 
+                    embed=discord.Embed(title="**%s Results**" % poll, description=description)
+                    embed.set_author(name=ctx.author.mention, icon_url=ctx.author.avatar_url)
+                    await ctx.send(embed=embed)
+                    polls.pop(poll)
+                    save(polls, "polls.json")
+                else:
+                    await ctx.send("You can't end a poll you don't own!")
+            else:
+                await ctx.send("That poll does not exist!")
 
 def setup(bot):
     bot.add_cog(funCommands(bot))
