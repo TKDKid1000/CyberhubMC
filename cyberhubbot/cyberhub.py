@@ -42,6 +42,12 @@ class Bot(commands.Bot):
             return
         raise error
 
+    async def on_member_join(self, member:discord.Member):
+        channel = get(member.guild.channels, name="welcome")
+        embed=discord.Embed(title="**Welcome to Cyberhub!**", description="Welcome " + member.mention + " to **Cyberhub!** They are member " + str(member.guild.member_count))
+        embed.set_thumbnail(url=member.avatar_url)
+        await channel.send(embed=embed)
+
     async def on_message(self, message):
             if message.author == self.user:
                 return

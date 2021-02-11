@@ -1,0 +1,20 @@
+world: skyblock
+
+seperate: 1000
+
+height: 64
+
+items:
+- 327 1
+- 79 2
+
+genblocks:
+  coal: 0
+  iron: 16
+  gold: 31
+  redstone: 46
+  lapis: 56
+  emerald: 61
+  diamond: 66
+  cobblestone: 71
+  max: 200

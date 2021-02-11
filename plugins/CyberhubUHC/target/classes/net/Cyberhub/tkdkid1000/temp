@@ -1,0 +1,10 @@
+for (Player player : Bukkit.getOnlinePlayers()) {
+                	if (player.isOp()) {
+                    	for (Map.Entry<Player, Integer> diamondcount : diamonds.entrySet()) {
+                    		if (diamondcount.getValue() > 4) {
+                    			player.sendMessage(ChatColor.GOLD + "[ANTI XRAY] " + ChatColor.DARK_GRAY + diamondcount.getKey().getName() + " mined " + diamondcount.getValue() + " diamonds.");
+                    		}
+                    	}
+                    }
+                }
+                diamonds.clear();

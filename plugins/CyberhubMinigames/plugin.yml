@@ -1,0 +1,8 @@
+name: CyberhubMinigames
+version: 1.4.0
+main: net.Cyberhub.tkdkid1000.CyberhubMinigames
+commands:
+  blocksumo:
+    usage: /blocksumo <cmd> <args>
+    permission: cyberhubminigames.blocksumo
+    description: blocksumo command

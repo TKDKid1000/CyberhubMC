@@ -1,0 +1,12 @@
+hub: hub
+blocksumo:
+  world: blocksumo
+  void: 10
+  center: 10,10,10
+  lives: 5
+  minplayers: 2
+  spawns:
+  
+bridging:
+  world: bridging
+  islandspace: 1000

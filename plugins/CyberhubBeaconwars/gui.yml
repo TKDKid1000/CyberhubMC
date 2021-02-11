@@ -46,7 +46,13 @@ gui:
     count: 4
     pos: 11
     cost:
-      IRON_INGOT: 2
+      IRON_INGOT: 8
+  wood:
+    item: WOOD
+    count: 4
+    pos: 12
+    cost:
+      GOLD_INGOT: 8
   diamondpickaxe:
     item: DIAMOND_PICKAXE
     count: 1

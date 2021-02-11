@@ -1,0 +1,26 @@
+name: CyberhubSkyblock
+version: 1.5.0
+main: net.Cyberhub.tkdkid1000.CyberhubSkyblock
+author: tkdkid1000
+commands:
+  island:
+    description: Create or teleport to your island
+    usage: /island
+    permission: cyberhubskyblock.island
+  islandwarp:
+    description: Warp to another players island
+    usage: /islandwarp <player>
+    permission: cyberhubskyblock.islandwarp
+  shop:
+    description: Open the shop gui
+    usage: /shop
+    permission: cyberhubskyblock.shop
+  sell:
+    description: Sell your held item
+    usage: /sell
+    permission: cyberhubskyblock.sell
+  money:
+    description: Get a players money
+    usage: /money [player]
+    permission: cyberhubskyblock.money
+    aliases: [bal, balance, value]

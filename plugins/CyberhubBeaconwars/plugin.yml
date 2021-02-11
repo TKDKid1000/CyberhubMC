@@ -1,5 +1,5 @@
 name: CyberhubBeaconwars
-version: 1.14.0
+version: 1.16.0
 main: net.Cyberhub.tkdkid1000.CyberhubBeaconwars
 depend: [WorldEdit, Essentials]
 commands:
@@ -19,3 +19,7 @@ commands:
     usage: /enchgui
     permission: cyberhubbeaconwars.enchgui
     description: Opens the beaconwars enchantment gui.
+  stat:
+    usage: /stat
+    description: Shows your stats
+    aliases: [stats, statistic, statistics]

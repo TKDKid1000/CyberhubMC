@@ -1,0 +1,9 @@
+startcount: 4
+winmessage: "&6&lThe winner was &a%player%&6. What a legend!"
+nowinner: "&4An error occured and nobody won the uhc game."
+startmessage: "&6&lThe uhc game has started!"
+deathmessage: "&4You died"
+deathalert: "&6A player has died"
+spawnx: 0.5
+spawny: 64.0
+spawnz: 0.5

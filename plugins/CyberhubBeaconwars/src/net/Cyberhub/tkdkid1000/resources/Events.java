@@ -9,6 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -19,6 +21,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -54,7 +57,8 @@ public class Events implements Listener {
 		Player player = event.getPlayer();
 		if (player.getInventory().getItemInHand().getType() == Material.FIREBALL) {
 			if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				player.launchProjectile(Fireball.class);
+				Fireball fireball = player.launchProjectile(Fireball.class);
+				fireball.setIsIncendiary(false);
 				if (player.getInventory().getItemInHand().getAmount() == 1) {
 					player.getInventory().setItemInHand(new ItemStack(Material.AIR));
 				} else {
@@ -76,7 +80,7 @@ public class Events implements Listener {
 							event.getPlayer().sendMessage(ChatColor.RED + "You can't shatter your own beacon!");
 						} else {
 							for (Player p : CyberhubBeaconwars.players) {
-								p.sendMessage(ChatColor.RED + p.getName() + " shattered " + colors.get(x) + "'s beacon!");
+								p.sendMessage(ChatColor.RED + player.getName() + " shattered " + colors.get(x) + "'s beacon!");
 								team.replace("beaconalive", false);
 								CyberhubBeaconwars.teamlist.set(x, team);
 								for (Player teamp : players) {
@@ -128,6 +132,13 @@ public class Events implements Listener {
 			event.setCancelled(true);
 			event.getPlayer().sendMessage(ChatColor.RED + "You can't place blocks here!");
 		}
+		if (event.getBlock().getType() == Material.TNT) {
+			event.getBlock().setType(Material.AIR);
+			Entity ent = event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.PRIMED_TNT);
+			TNTPrimed tnt = (TNTPrimed) ent;
+			tnt.setFuseTicks(40);
+			tnt.setIsIncendiary(false);
+		}
 	}
 	
 	@EventHandler
@@ -152,26 +163,28 @@ public class Events implements Listener {
 		if (!CyberhubBeaconwars.enabled) return;
 		if (player.hasPermission("cyberhubbeaconwars.override")) return;
 		if (!player.getLocation().getWorld().getName().equalsIgnoreCase(config.getString("map")));
+		beaconwars.playerdata.getConfig().set("playerdata."+player.getUniqueId().toString()+".deaths", beaconwars.playerdata.getConfig().getInt("playerdata."+player.getUniqueId().toString()+".deaths")+1);
 		event.setKeepInventory(true);
-		player.spigot().respawn();
-		player.getInventory().clear();
-		player.setHealth(20);
-		player.setFoodLevel(20);
-		player.getInventory().setArmorContents(new ItemStack[] {new ItemStack(Material.AIR),
-				new ItemStack(Material.AIR),
-				new ItemStack(Material.AIR),
-				new ItemStack(Material.AIR)});
-		player.getInventory().addItem(new ItemStack(Material.WOOD_SWORD));
-		for (Player p : CyberhubBeaconwars.players) {
-			p.sendMessage(ChatColor.DARK_BLUE + event.getDeathMessage());
+		if (player.getKiller() != null) {
+			for (Player p : CyberhubBeaconwars.players) {
+				p.sendMessage(ChatColor.GRAY + event.getDeathMessage().replace(player.getName(), ChatColor.RED + player.getName() + ChatColor.GRAY).replace(player.getKiller().getName(), ChatColor.RED + player.getKiller().getName() + ChatColor.GRAY));
+			}
+		} else {
+			for (Player p : CyberhubBeaconwars.players) {
+				p.sendMessage(ChatColor.GRAY + event.getDeathMessage().replace(player.getName(), ChatColor.RED + player.getName() + ChatColor.GRAY));
+			}
 		}
 		event.setDeathMessage("");
-		try {
-			Economy.add(player.getName(), 5);
-			player.sendMessage(ChatColor.GOLD + "5 gold, Kill.");
-		} catch (NoLoanPermittedException | UserDoesNotExistException e) {
-			player.sendMessage(ChatColor.RED + "Failed to give you your gold. Please contact a server admin.");
-			e.printStackTrace();
+		if (player.getKiller() != null) {
+			try {
+				Economy.add(player.getKiller().getName(), 5);
+				player.getKiller().sendMessage(ChatColor.GOLD + "5 gold, Kill.");
+				beaconwars.playerdata.getConfig().set("playerdata."+player.getKiller().getUniqueId().toString()+".kills", beaconwars.playerdata.getConfig().getInt("playerdata."+player.getKiller().getUniqueId().toString()+".kills")+1);
+				beaconwars.playerdata.save();
+			} catch (NoLoanPermittedException | UserDoesNotExistException e) {
+				player.getKiller().sendMessage(ChatColor.RED + "Failed to give you your gold. Please contact a server admin.");
+				e.printStackTrace();
+			}
 		}
 		for (int x=0; x<8; x++) {
 			HashMap team = CyberhubBeaconwars.teamlist.get(x);
@@ -212,13 +225,8 @@ public class Events implements Listener {
 		for (Player p : CyberhubBeaconwars.players) {
 			p.sendMessage(ChatColor.RED + player.getName() + " quit the game.");
 		}
-		for (int x=0; x<8; x++) {
-			List<Player> players = CyberhubBeaconwars.playerlist.get(x);
-			if (players.contains(player)) {
-				players.remove(player);
-				CyberhubBeaconwars.playerlist.set(x, players);
-			}
-		}
+		Functions.elimPlayer(player);
+		player.performCommand("spawn");
 	}
 	
 	@EventHandler
@@ -227,7 +235,29 @@ public class Events implements Listener {
 		if (event.getPlayer().hasPermission("cyberhubbeaconwars.override")) return;
 		if (!event.getPlayer().getLocation().getWorld().getName().equalsIgnoreCase(config.getString("map")));
 		if (event.getPlayer().getLocation().getY() < 0) {
-			event.getPlayer().setHealth(0);
+			if (event.getPlayer().getHealth() != 0) {
+				event.getPlayer().setHealth(0);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onWorldChange(PlayerChangedWorldEvent event) {
+		Player player = event.getPlayer();
+		if (!CyberhubBeaconwars.enabled) return;
+		if (player.hasPermission("cyberhubbeaconwars.override")) return;
+		if (player.getWorld().getName().equalsIgnoreCase(config.getString("spawnworld"))) {
+			player.getInventory().clear();
+			player.setHealth(20.0);
+			player.setFoodLevel(20);
+			if (CyberhubBeaconwars.players.contains(player)) {
+				CyberhubBeaconwars.players.remove(player);
+			}
+			for (Player p : CyberhubBeaconwars.players) {
+				p.sendMessage(ChatColor.RED + player.getName() + " quit the game.");
+			}
+			Functions.elimPlayer(player);
+			player.performCommand("spawn");
 		}
 	}
 }

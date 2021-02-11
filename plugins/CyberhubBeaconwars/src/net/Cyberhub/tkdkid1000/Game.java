@@ -136,6 +136,7 @@ public class Game {
 					HashMap team = CyberhubBeaconwars.teamlist.get(x);
 					if (CyberhubBeaconwars.playerlist.get(x).contains(p)) {
 						p.teleport((Location) team.get("base"));
+						p.setBedSpawnLocation((Location) team.get("base"), true);
 					}
 				}
 			}
@@ -147,6 +148,14 @@ public class Game {
 					for (Player p : CyberhubBeaconwars.players) {
 						if (p.isDead()) {
 							p.spigot().respawn();
+							p.getInventory().clear();
+							p.setHealth(20);
+							p.setFoodLevel(20);
+							p.getInventory().setArmorContents(new ItemStack[] {new ItemStack(Material.AIR),
+									new ItemStack(Material.AIR),
+									new ItemStack(Material.AIR),
+									new ItemStack(Material.AIR)});
+							p.getInventory().addItem(new ItemStack(Material.WOOD_SWORD));
 						}
 					}
 					irongen++;
@@ -180,6 +189,9 @@ public class Game {
 							if (team.size() != 0) {
 								for (Player p : team) {
 									p.sendMessage(ChatColor.GREEN + "You won!");
+									p.sendMessage(ChatColor.GREEN + "You have won " + (beaconwars.playerdata.getConfig().getInt("playerdata."+p.getUniqueId().toString()+".wins")+1) + " games now!");
+									beaconwars.playerdata.getConfig().set("playerdata."+p.getUniqueId().toString()+".wins", beaconwars.playerdata.getConfig().getInt("playerdata."+p.getUniqueId().toString()+".wins")+1);
+									beaconwars.playerdata.save();
 									try {
 										Economy.add(p.getName(), 100);
 										p.sendMessage(ChatColor.GOLD + "100 Gold, Game won.");

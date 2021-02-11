@@ -1,0 +1,10 @@
+name: CyberhubUHC
+version: 1.2.0
+main: net.Cyberhub.tkdkid1000.CyberhubUHC
+api-version: 1.16
+author: tkdkid1000
+commands:
+permissions:
+  cyberhubuhc.xrayimmune:
+    description: Makes you immune to the anti xray
+    default: op
