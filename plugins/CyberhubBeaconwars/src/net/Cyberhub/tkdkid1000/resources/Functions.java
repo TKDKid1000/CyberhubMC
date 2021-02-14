@@ -2,7 +2,9 @@ package net.Cyberhub.tkdkid1000.resources;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,7 +39,8 @@ public class Functions {
 	}
 	
 	public static void elimPlayer(Player player) {
-		for (Player p : CyberhubBeaconwars.players) {
+		for (UUID uuid : CyberhubBeaconwars.players) {
+			Player p = Bukkit.getPlayer(uuid);
 			p.sendMessage(ChatColor.RED + player.getName() + " has been eliminated!");
 		}
 		player.sendMessage(ChatColor.RED + "You have been eliminated from the game!");
@@ -49,16 +52,20 @@ public class Functions {
 				new ItemStack(Material.AIR),
 				new ItemStack(Material.AIR)});
 		for (int x=0; x<8; x++) {
-			List<Player> players = CyberhubBeaconwars.playerlist.get(x);
+			List<UUID> players = CyberhubBeaconwars.playerlist.get(x);
 			List<String> colors = CyberhubBeaconwars.colors;
-			if (players.contains(player)) {
-				players.remove(player);
+			if (players.contains(player.getUniqueId())) {
+				players.remove(player.getUniqueId());
 				if (players.size() == 0) {
 					CyberhubBeaconwars.deadteams++;
-					for (Player p : CyberhubBeaconwars.players) {
+					for (UUID uuid: CyberhubBeaconwars.players) {
+						Player p = Bukkit.getPlayer(uuid);
 						p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + colors.get(x) + " team has been eliminated!");
 					}
 				}
+			}
+			if (CyberhubBeaconwars.players.contains(player.getUniqueId())) {
+				CyberhubBeaconwars.players.remove(player.getUniqueId());
 			}
 		}
 	}

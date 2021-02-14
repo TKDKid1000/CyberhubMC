@@ -1,6 +1,7 @@
 package net.Cyberhub.tkdkid1000;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,10 +43,10 @@ public class CyberhubBeaconwars extends JavaPlugin implements Listener {
 	@SuppressWarnings("rawtypes")
 	public static List<HashMap> teamlist = new ArrayList<HashMap>();
 	// players
-	public static List<List<Player>> playerlist = new ArrayList<List<Player>>();
+	public static List<List<UUID>> playerlist = new ArrayList<List<UUID>>();
 	
 	public static List<String> colors = new ArrayList<String>();
-	public static List<Player> players;
+	public static List<UUID> players;
 	
 	public YamlConfig gui = new YamlConfig(getDataFolder(), "gui");
 	public YamlConfig enchants = new YamlConfig(getDataFolder(), "enchants");
@@ -129,9 +130,8 @@ public class CyberhubBeaconwars extends JavaPlugin implements Listener {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		getLogger().info(ChatColor.RED + "Enabled: " + ChatColor.RESET + enabled);
 		getLogger().info(ChatColor.RED + "Dead: " + ChatColor.RESET + deadteams);
-		if (args.length == 1 && args[0].equalsIgnoreCase("block")) {
-			getLogger().info(ChatColor.RED + "Blocks: " + ChatColor.RESET + blocks);
-		}
+		getLogger().info(ChatColor.RED + "Players: " + ChatColor.RESET + players);
+		getLogger().info(ChatColor.RED + "Playerlist: " + ChatColor.RESET + playerlist);
 		sender.sendMessage("check the console!");
 		return true;
 	}

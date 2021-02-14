@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -94,7 +95,7 @@ public class Game {
 			((Location) team.get("beacon")).getBlock().setType(Material.AIR);
 			System.out.println(team);
 			CyberhubBeaconwars.teamlist.add(team);
-			CyberhubBeaconwars.playerlist.add(new ArrayList<Player>());
+			CyberhubBeaconwars.playerlist.add(new ArrayList<UUID>());
 		}
 		CyberhubBeaconwars.blocks = Functions.getBlocks(new BoundingBox(config.getInt("boundingbox.x1"), 
 				config.getInt("boundingbox.y1"), 
@@ -115,9 +116,12 @@ public class Game {
 		World map = Bukkit.getWorld(config.getString("map"));
 		if (map.getPlayers().size() >= config.getInt("minplayers")) {
 			CyberhubBeaconwars.enabled = true;
-			List<Player> players = map.getPlayers();
+			List<UUID> players = new ArrayList<UUID>();
+			for (Player p : map.getPlayers()) {
+				players.add(p.getUniqueId());
+			}
 			Collections.shuffle(players);
-			List<List<Player>> teams;
+			List<List<UUID>> teams;
 			teams = Lists.partition(players, 1);
 			System.out.println(teams);
 			for (int x=0; x<teams.size(); x++) {
@@ -128,13 +132,14 @@ public class Game {
 			}
 			CyberhubBeaconwars.players = players;
 			CyberhubBeaconwars.deadteams = 8-teams.size();
-			for (Player p : CyberhubBeaconwars.players) {
+			for (UUID uuid : CyberhubBeaconwars.players) {
+				Player p = Bukkit.getPlayer(uuid);
 				p.getInventory().addItem(new ItemStack(Material.WOOD_SWORD));
 				p.setHealth(20.0);
 				p.setFoodLevel(20);
 				for (int x=0; x<8; x++) {
 					HashMap team = CyberhubBeaconwars.teamlist.get(x);
-					if (CyberhubBeaconwars.playerlist.get(x).contains(p)) {
+					if (CyberhubBeaconwars.playerlist.get(x).contains(p.getUniqueId())) {
 						p.teleport((Location) team.get("base"));
 						p.setBedSpawnLocation((Location) team.get("base"), true);
 					}
@@ -145,7 +150,8 @@ public class Game {
 				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
-					for (Player p : CyberhubBeaconwars.players) {
+					for (UUID uuid : CyberhubBeaconwars.players) {
+						Player p = Bukkit.getPlayer(uuid);
 						if (p.isDead()) {
 							p.spigot().respawn();
 							p.getInventory().clear();
@@ -155,6 +161,7 @@ public class Game {
 									new ItemStack(Material.AIR),
 									new ItemStack(Material.AIR),
 									new ItemStack(Material.AIR)});
+							p.getEnderChest().clear();
 							p.getInventory().addItem(new ItemStack(Material.WOOD_SWORD));
 						}
 					}
@@ -184,10 +191,12 @@ public class Game {
 						new Generators(config).fillGen("star", new ItemStack(Material.NETHER_STAR));
 					}
 					if (CyberhubBeaconwars.deadteams >= 7) {
+						CyberhubBeaconwars.enabled = false;
 						for (int i=0; i<8; i++) {
-							List<Player> team = CyberhubBeaconwars.playerlist.get(i);
+							List<UUID> team = CyberhubBeaconwars.playerlist.get(i);
 							if (team.size() != 0) {
-								for (Player p : team) {
+								for (UUID uuid : team) {
+									Player p = Bukkit.getPlayer(uuid);
 									p.sendMessage(ChatColor.GREEN + "You won!");
 									p.sendMessage(ChatColor.GREEN + "You have won " + (beaconwars.playerdata.getConfig().getInt("playerdata."+p.getUniqueId().toString()+".wins")+1) + " games now!");
 									beaconwars.playerdata.getConfig().set("playerdata."+p.getUniqueId().toString()+".wins", beaconwars.playerdata.getConfig().getInt("playerdata."+p.getUniqueId().toString()+".wins")+1);
@@ -208,7 +217,6 @@ public class Game {
 							p.performCommand("spawn");
 							p.setGameMode(GameMode.SURVIVAL);
 						}
-						CyberhubBeaconwars.enabled = false;
 						new BukkitRunnable() {
 
 							@Override

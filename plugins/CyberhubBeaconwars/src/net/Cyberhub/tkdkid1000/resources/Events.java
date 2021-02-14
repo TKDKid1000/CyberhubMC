@@ -3,7 +3,9 @@ package net.Cyberhub.tkdkid1000.resources;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -71,20 +73,21 @@ public class Events implements Listener {
 				event.getClickedBlock().setType(Material.AIR);
 				for (int x=0; x<8; x++) {
 					HashMap team = CyberhubBeaconwars.teamlist.get(x);
-					List<Player> players = CyberhubBeaconwars.playerlist.get(x);
+					List<UUID> players = CyberhubBeaconwars.playerlist.get(x);
 					List<String> colors = CyberhubBeaconwars.colors;
 					if (event.getClickedBlock().equals(((Location) team.get("beacon")).getBlock())) {
-						if (players.contains(event.getPlayer())) {
+						if (players.contains(event.getPlayer().getUniqueId())) {
 							event.setCancelled(true);
 							event.getClickedBlock().setType(Material.BEACON);
 							event.getPlayer().sendMessage(ChatColor.RED + "You can't shatter your own beacon!");
 						} else {
-							for (Player p : CyberhubBeaconwars.players) {
+							for (UUID uuid : CyberhubBeaconwars.players) {
+								Player p = Bukkit.getPlayer(uuid);
 								p.sendMessage(ChatColor.RED + player.getName() + " shattered " + colors.get(x) + "'s beacon!");
 								team.replace("beaconalive", false);
 								CyberhubBeaconwars.teamlist.set(x, team);
-								for (Player teamp : players) {
-									teamp.sendTitle(ChatColor.RED + "Beacon Shatted!", ChatColor.GRAY + "You will no longer respawn.");
+								for (UUID teamp : players) {
+									Bukkit.getPlayer(teamp).sendTitle(ChatColor.RED + "Beacon Shatted!", ChatColor.GRAY + "You will no longer respawn.");
 								}
 							}
 						}
@@ -166,11 +169,13 @@ public class Events implements Listener {
 		beaconwars.playerdata.getConfig().set("playerdata."+player.getUniqueId().toString()+".deaths", beaconwars.playerdata.getConfig().getInt("playerdata."+player.getUniqueId().toString()+".deaths")+1);
 		event.setKeepInventory(true);
 		if (player.getKiller() != null) {
-			for (Player p : CyberhubBeaconwars.players) {
+			for (UUID uuid : CyberhubBeaconwars.players) {
+				Player p = Bukkit.getPlayer(uuid);
 				p.sendMessage(ChatColor.GRAY + event.getDeathMessage().replace(player.getName(), ChatColor.RED + player.getName() + ChatColor.GRAY).replace(player.getKiller().getName(), ChatColor.RED + player.getKiller().getName() + ChatColor.GRAY));
 			}
 		} else {
-			for (Player p : CyberhubBeaconwars.players) {
+			for (UUID uuid : CyberhubBeaconwars.players) {
+				Player p = Bukkit.getPlayer(uuid);
 				p.sendMessage(ChatColor.GRAY + event.getDeathMessage().replace(player.getName(), ChatColor.RED + player.getName() + ChatColor.GRAY));
 			}
 		}
@@ -188,8 +193,8 @@ public class Events implements Listener {
 		}
 		for (int x=0; x<8; x++) {
 			HashMap team = CyberhubBeaconwars.teamlist.get(x);
-			List<List<Player>> players = CyberhubBeaconwars.playerlist;
-			if (players.get(x).contains(player)) {
+			List<List<UUID>> players = CyberhubBeaconwars.playerlist;
+			if (players.get(x).contains(player.getUniqueId())) {
 				if ((boolean) team.get("beaconalive")) {
 					player.setGameMode(GameMode.SPECTATOR);
 					player.sendMessage(ChatColor.RED + "You died! You will respawn in " + config.getInt("respawntime") + " seconds!");
@@ -219,10 +224,11 @@ public class Events implements Listener {
 		player.getInventory().clear();
 		player.setHealth(20.0);
 		player.setFoodLevel(20);
-		if (CyberhubBeaconwars.players.contains(player)) {
-			CyberhubBeaconwars.players.remove(player);
+		if (CyberhubBeaconwars.players.contains(player.getUniqueId())) {
+			CyberhubBeaconwars.players.remove(player.getUniqueId());
 		}
-		for (Player p : CyberhubBeaconwars.players) {
+		for (UUID uuid : CyberhubBeaconwars.players) {
+			Player p = Bukkit.getPlayer(uuid);
 			p.sendMessage(ChatColor.RED + player.getName() + " quit the game.");
 		}
 		Functions.elimPlayer(player);
@@ -250,10 +256,11 @@ public class Events implements Listener {
 			player.getInventory().clear();
 			player.setHealth(20.0);
 			player.setFoodLevel(20);
-			if (CyberhubBeaconwars.players.contains(player)) {
-				CyberhubBeaconwars.players.remove(player);
+			if (CyberhubBeaconwars.players.contains(player.getUniqueId())) {
+				CyberhubBeaconwars.players.remove(player.getUniqueId());
 			}
-			for (Player p : CyberhubBeaconwars.players) {
+			for (UUID uuid : CyberhubBeaconwars.players) {
+				Player p = Bukkit.getPlayer(uuid);
 				p.sendMessage(ChatColor.RED + player.getName() + " quit the game.");
 			}
 			Functions.elimPlayer(player);
