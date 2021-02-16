@@ -145,6 +145,12 @@ public class Game {
 					}
 				}
 			}
+			for (int x=0; x<8; x++) {
+				if (CyberhubBeaconwars.playerlist.get(x).size() == 0) {
+					CyberhubBeaconwars.teamlist.get(x).replace("beaconalive", false);
+					((Location) CyberhubBeaconwars.teamlist.get(x).get("beacon")).getBlock().setType(Material.AIR);
+				}
+			}
 			new BukkitRunnable() {
 
 				@SuppressWarnings("deprecation")

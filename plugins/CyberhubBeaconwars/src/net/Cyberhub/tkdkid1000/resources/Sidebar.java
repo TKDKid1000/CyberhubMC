@@ -47,7 +47,11 @@ public class Sidebar {
 					if (alive) {
 						lines.add(ChatColor.GOLD + CyberhubBeaconwars.colors.get(x) + ": " + ChatColor.GREEN + "Alive");
 					} else {
-						lines.add(ChatColor.GOLD + CyberhubBeaconwars.colors.get(x) + ": " + ChatColor.RED + "Shattered");
+						if (CyberhubBeaconwars.playerlist.get(x).size() == 0) {
+							lines.add(ChatColor.GOLD + CyberhubBeaconwars.colors.get(x) + ": " + ChatColor.DARK_RED + "Shattered");
+						} else {
+							lines.add(ChatColor.GOLD + CyberhubBeaconwars.colors.get(x) + ": " + ChatColor.RED + CyberhubBeaconwars.playerlist.get(x).size());
+						}
 					}	
 			    }
 		    } else {
