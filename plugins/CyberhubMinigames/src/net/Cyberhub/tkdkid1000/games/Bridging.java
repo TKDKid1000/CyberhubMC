@@ -49,7 +49,6 @@ public class Bridging implements Listener {
 		player.sendMessage(ChatColor.GREEN + "Bridge as fast as you can!");
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();

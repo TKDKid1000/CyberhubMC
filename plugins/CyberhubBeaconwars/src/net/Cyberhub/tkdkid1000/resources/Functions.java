@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -43,6 +44,12 @@ public class Functions {
 			Player p = Bukkit.getPlayer(uuid);
 			p.sendMessage(ChatColor.RED + player.getName() + " has been eliminated!");
 		}
+		if (CyberhubBeaconwars.players.contains(player.getUniqueId())) {
+			CyberhubBeaconwars.players.remove(player.getUniqueId());
+		}
+		if (player.isDead()) {
+			player.spigot().respawn();
+		}
 		player.sendMessage(ChatColor.RED + "You have been eliminated from the game!");
 		player.getInventory().clear();
 		player.setHealth(20);
@@ -51,6 +58,7 @@ public class Functions {
 				new ItemStack(Material.AIR),
 				new ItemStack(Material.AIR),
 				new ItemStack(Material.AIR)});
+		player.setGameMode(GameMode.SPECTATOR);
 		for (int x=0; x<8; x++) {
 			List<UUID> players = CyberhubBeaconwars.playerlist.get(x);
 			List<String> colors = CyberhubBeaconwars.colors;
@@ -63,9 +71,6 @@ public class Functions {
 						p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + colors.get(x) + " team has been eliminated!");
 					}
 				}
-			}
-			if (CyberhubBeaconwars.players.contains(player.getUniqueId())) {
-				CyberhubBeaconwars.players.remove(player.getUniqueId());
 			}
 		}
 	}

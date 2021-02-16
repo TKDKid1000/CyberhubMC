@@ -26,6 +26,7 @@ import net.Cyberhub.tkdkid1000.resources.Enchants;
 import net.Cyberhub.tkdkid1000.resources.Events;
 import net.Cyberhub.tkdkid1000.resources.Gui;
 import net.Cyberhub.tkdkid1000.resources.HotbarItems;
+import net.Cyberhub.tkdkid1000.resources.Sidebar;
 import net.Cyberhub.tkdkid1000.resources.StatGUI;
 import net.Cyberhub.tkdkid1000.resources.VoidSpawn;
 import net.Cyberhub.tkdkid1000.utils.YamlConfig;
@@ -40,8 +41,7 @@ public class CyberhubBeaconwars extends JavaPlugin implements Listener {
 	private static CyberhubBeaconwars instance;
 	public FileConfiguration config = getConfig();
 	// player teams
-	@SuppressWarnings("rawtypes")
-	public static List<HashMap> teamlist = new ArrayList<HashMap>();
+	public static List<HashMap<String, Object>> teamlist = new ArrayList<HashMap<String, Object>>();
 	// players
 	public static List<List<UUID>> playerlist = new ArrayList<List<UUID>>();
 	
@@ -68,6 +68,7 @@ public class CyberhubBeaconwars extends JavaPlugin implements Listener {
 		getCommand("enchgui").setExecutor(new Enchants(enchants.getConfig()));
 		getCommand("beacon").setExecutor(new Commands(this, config));
 		getCommand("beacon").setTabCompleter(new Commands(this, config));
+		new Sidebar(playerdata).subscribe();
 	}
 	
 	@Override
@@ -119,6 +120,7 @@ public class CyberhubBeaconwars extends JavaPlugin implements Listener {
 		} else {
 			if (event.getPlayer().getWorld().getName().equalsIgnoreCase(config.getString("map"))) {
 				event.getPlayer().sendMessage(ChatColor.GREEN + "You are spectating.");
+				event.getPlayer().setGameMode(GameMode.SPECTATOR);
 			}
 		}
 		if (event.getPlayer().getWorld().getName().equalsIgnoreCase(config.getString("spawnworld"))) {

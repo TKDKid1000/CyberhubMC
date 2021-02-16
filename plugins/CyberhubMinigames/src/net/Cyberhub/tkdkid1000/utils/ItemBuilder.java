@@ -110,7 +110,7 @@ public class ItemBuilder {
 		meta.setDisplayName(this.name);
 		meta.setLore(this.lore);
 		item.setDurability(this.durability);
-		meta.spigot().setUnbreakable(this.unbreakable);
+		meta.setUnbreakable(this.unbreakable);
 		for (Map.Entry<Enchantment, Integer> enchant : this.enchants.entrySet()) {
 			meta.addEnchant(enchant.getKey(), enchant.getValue(), true);
 		}

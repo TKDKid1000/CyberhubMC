@@ -258,7 +258,7 @@ public class Game {
 								}
 							}
 							
-						}.runTaskLater(beaconwars, 100);
+						}.runTask(beaconwars);
 						this.cancel();
 					}
 				}

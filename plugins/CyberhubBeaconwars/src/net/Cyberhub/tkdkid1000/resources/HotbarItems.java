@@ -1,6 +1,7 @@
 package net.Cyberhub.tkdkid1000.resources;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -78,6 +79,7 @@ public class HotbarItems implements Listener {
 	@EventHandler
 	public void onWorldChange(PlayerChangedWorldEvent event) {
 		if (event.getPlayer().getWorld().getName().equalsIgnoreCase(beacon.config.getString("spawnworld"))) {
+			event.getPlayer().setGameMode(GameMode.SURVIVAL);
 			event.getPlayer().getInventory().setItem(2, new ItemBuilder(Material.PAPER, 1)
 					.setName(ChatColor.GREEN + "Stats")
 					.build());

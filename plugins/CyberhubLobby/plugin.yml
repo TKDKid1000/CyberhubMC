@@ -1,0 +1,19 @@
+name: CyberhubLobby
+version: 1.3.0
+main: net.Cyberhub.tkdkid1000.CyberhubLobby
+author: tkdkid1000
+commands:
+  doublejump:
+    description: Toggle double jump
+    usage: /doublejump
+  gadget:
+    description: Open the gadget gui
+    usage: /gadget
+  gadgetshop:
+    description: Open the gadget shop
+    usage: /gadgetshop
+  trails:
+    description: Open the trail gui
+    usage: /trails
+    permission: cyberhublobby.trails
+    permission-message: "You need the LEGEND rank to use that command!"

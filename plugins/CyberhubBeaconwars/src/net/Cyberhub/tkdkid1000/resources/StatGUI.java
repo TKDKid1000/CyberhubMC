@@ -23,7 +23,6 @@ public class StatGUI implements Listener, CommandExecutor {
 
 	private CyberhubBeaconwars beaconwars;
 	private Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-	private Inventory gui = Bukkit.createInventory(null, 9, ChatColor.GOLD + "Stats");
 	
 	public StatGUI(CyberhubBeaconwars beaconwars) {
 		this.beaconwars = beaconwars;
@@ -36,11 +35,12 @@ public class StatGUI implements Listener, CommandExecutor {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (event.getClickedInventory().getName().equals(gui.getName())) event.setCancelled(true);;
+		if (event.getClickedInventory().getName().equals(ChatColor.GOLD + "Beaconwars Stats")) event.setCancelled(true);;
 	}
 	
 	@SuppressWarnings("deprecation")
 	public void openGui(Player player) {
+		Inventory gui = Bukkit.createInventory(null, 9, ChatColor.GOLD + "Beaconwars Stats");
 		gui.clear();
 		gui.setItem(0, new ItemBuilder(Material.DIAMOND_SWORD, 1)
 				.setName(ChatColor.GOLD + "Kills: " + ChatColor.GRAY + beaconwars.playerdata.getConfig().getString("playerdata."+player.getUniqueId().toString()+".kills"))

@@ -168,6 +168,13 @@ public class Events implements Listener {
 		if (!player.getLocation().getWorld().getName().equalsIgnoreCase(config.getString("map")));
 		beaconwars.playerdata.getConfig().set("playerdata."+player.getUniqueId().toString()+".deaths", beaconwars.playerdata.getConfig().getInt("playerdata."+player.getUniqueId().toString()+".deaths")+1);
 		event.setKeepInventory(true);
+		player.getInventory().clear();
+		player.getInventory().setArmorContents(new ItemStack[] {
+				new ItemStack(Material.AIR),
+				new ItemStack(Material.AIR),
+				new ItemStack(Material.AIR),
+				new ItemStack(Material.AIR)
+		});
 		if (player.getKiller() != null) {
 			for (UUID uuid : CyberhubBeaconwars.players) {
 				Player p = Bukkit.getPlayer(uuid);
@@ -180,6 +187,7 @@ public class Events implements Listener {
 			}
 		}
 		event.setDeathMessage("");
+		player.spigot().respawn();
 		if (player.getKiller() != null) {
 			try {
 				Economy.add(player.getKiller().getName(), 5);
@@ -195,10 +203,10 @@ public class Events implements Listener {
 			HashMap team = CyberhubBeaconwars.teamlist.get(x);
 			List<List<UUID>> players = CyberhubBeaconwars.playerlist;
 			if (players.get(x).contains(player.getUniqueId())) {
+				player.teleport((Location) team.get("base"));
 				if ((boolean) team.get("beaconalive")) {
 					player.setGameMode(GameMode.SPECTATOR);
 					player.sendMessage(ChatColor.RED + "You died! You will respawn in " + config.getInt("respawntime") + " seconds!");
-					player.teleport((Location) team.get("base"));
 					new BukkitRunnable() {
 
 						@Override
@@ -221,6 +229,7 @@ public class Events implements Listener {
 		Player player = event.getPlayer();
 		if (!CyberhubBeaconwars.enabled) return;
 		if (player.hasPermission("cyberhubbeaconwars.override")) return;
+		if (!CyberhubBeaconwars.players.contains(player.getUniqueId())) return;
 		player.getInventory().clear();
 		player.setHealth(20.0);
 		player.setFoodLevel(20);
@@ -239,6 +248,7 @@ public class Events implements Listener {
 	public void onMove(PlayerMoveEvent event) {
 		if (!CyberhubBeaconwars.enabled) return;
 		if (event.getPlayer().hasPermission("cyberhubbeaconwars.override")) return;
+		if (!CyberhubBeaconwars.players.contains(event.getPlayer().getUniqueId())) return;
 		if (!event.getPlayer().getLocation().getWorld().getName().equalsIgnoreCase(config.getString("map")));
 		if (event.getPlayer().getLocation().getY() < 0) {
 			if (event.getPlayer().getHealth() != 0) {
@@ -252,6 +262,7 @@ public class Events implements Listener {
 		Player player = event.getPlayer();
 		if (!CyberhubBeaconwars.enabled) return;
 		if (player.hasPermission("cyberhubbeaconwars.override")) return;
+		if (!CyberhubBeaconwars.players.contains(player.getUniqueId())) return;
 		if (player.getWorld().getName().equalsIgnoreCase(config.getString("spawnworld"))) {
 			player.getInventory().clear();
 			player.setHealth(20.0);

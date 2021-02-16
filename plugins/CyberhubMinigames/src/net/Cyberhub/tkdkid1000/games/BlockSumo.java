@@ -210,9 +210,9 @@ public class BlockSumo implements Listener, CommandExecutor {
 			event.setCancelled(true);
 			event.getPlayer().sendMessage(ChatColor.RED + "You can't place blocks here!");
 		}
-		if (event.getPlayer().getInventory().getItemInHand().getType() == Material.WOOL) {
-			if (event.getPlayer().getInventory().getItemInHand().getAmount() != 64) {
-				event.getPlayer().getInventory().getItemInHand().setAmount(64);
+		if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.WOOL) {
+			if (event.getPlayer().getInventory().getItemInMainHand().getAmount() != 64) {
+				event.getPlayer().getInventory().getItemInMainHand().setAmount(64);
 			}
 		}
 		if (event.getBlock().getType() == Material.TNT) {
@@ -446,17 +446,17 @@ public class BlockSumo implements Listener, CommandExecutor {
 		if (!enabled) return;
 		if (!event.getPlayer().getLocation().getWorld().getName().equalsIgnoreCase(config.getString("blocksumo.world")));
 		Player player = event.getPlayer();
-		if (player.getInventory().getItemInHand().getType() == Material.FIREBALL) {
+		if (player.getInventory().getItemInMainHand().getType() == Material.FIREBALL) {
 			if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Fireball fireball = player.launchProjectile(Fireball.class);
 				fireball.setIsIncendiary(false);
-				if (player.getInventory().getItemInHand().getAmount() == 1) {
-					player.getInventory().setItemInHand(new ItemStack(Material.AIR));
+				if (player.getInventory().getItemInMainHand().getAmount() == 1) {
+					player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 				} else {
-					event.getPlayer().getInventory().getItemInHand().setAmount(event.getPlayer().getInventory().getItemInHand().getAmount()-1);
+					event.getPlayer().getInventory().getItemInMainHand().setAmount(event.getPlayer().getInventory().getItemInMainHand().getAmount()-1);
 				}
 			}
-		} else if (player.getInventory().getItemInHand().getType() == Material.EYE_OF_ENDER) {
+		} else if (player.getInventory().getItemInMainHand().getType() == Material.EYE_OF_ENDER) {
 			if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				lives.replace(player, lives.get(player)+1);
 				player.sendMessage(ChatColor.GREEN + "+1 lives!");
