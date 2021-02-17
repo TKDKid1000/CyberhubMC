@@ -60,7 +60,7 @@ public class Sidebar {
 		    	lines.add(ChatColor.GOLD + "Kills: " + ChatColor.GRAY + playerdata.getConfig().getInt("playerdata."+p.getUniqueId().toString()+".kills"));
 		    	lines.add(ChatColor.GOLD + "Deaths: " + ChatColor.GRAY + playerdata.getConfig().getInt("playerdata."+p.getUniqueId().toString()+".deaths"));
 		    	try {
-					lines.add(ChatColor.GOLD + "Wins: " + ChatColor.GRAY + Economy.getMoney(p.getName()));
+					lines.add(ChatColor.GOLD + "Coins: " + ChatColor.GRAY + Economy.getMoney(p.getName()));
 				} catch (UserDoesNotExistException e1) {
 					e1.printStackTrace();
 				}
