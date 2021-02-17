@@ -41,6 +41,7 @@ public class Sidebar {
 		    obj.setDisplayName("&6&lBeaconwars");
 		    List<String> lines = new ArrayList<String>();
 		    lines.add("&7" + new java.sql.Date(System.currentTimeMillis()).toString().replace("-", "/"));
+		    lines.add("");
 		    if (CyberhubBeaconwars.enabled && CyberhubBeaconwars.players.contains(p.getUniqueId())) {
 		    	for (int x=0; x<8; x++) {
 			    	boolean alive = (boolean) CyberhubBeaconwars.teamlist.get(x).get("beaconalive");
